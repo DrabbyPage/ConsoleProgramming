@@ -31,6 +31,7 @@ constructor. Then we call the ShowAsync() function. And that's all!
 // the class definition for the core "framework" of our app
 ref class App sealed : public IFrameworkView
 {
+    bool WindowClosed;    // change to true when it's time to close the window
 public:
     // some functions called by Windows
     virtual void Initialize(CoreApplicationView^ AppView)
@@ -47,9 +48,12 @@ public:
 
         // The only template parameter this event uses is SuspendingEventArgs. It has only one member,
         // which is useful when saving data. I'll talk about it below.
-        CoreApplication::Suspending += ref new EventHandler<SuspendingEventArgs^>(this, &App::Suspending);
+        //CoreApplication::Suspending += ref new EventHandler<SuspendingEventArgs^>(this, &App::Suspending);
 
-        CoreApplication::Resuming += ref new EventHandler<Object^>(this, &App::Resuming);
+        // adding the resuming event
+        //CoreApplication::Resuming += ref new EventHandler<Object^>(this, &App::Resuming);
+
+        WindowClosed = false;    // initialize to false
     }
 
     virtual void SetWindow(CoreWindow^ Window)
@@ -79,8 +83,16 @@ public:
         ProcessUntilQuit	                Dispatch all events, and repeat. Do not return until Windows shuts the program down.
         */
         // Run ProcessEvents() to dispatch events
-        Window->Dispatcher->ProcessEvents(CoreProcessEventsOption::ProcessUntilQuit);
+        //Window->Dispatcher->ProcessEvents(CoreProcessEventsOption::ProcessUntilQuit);
 
+        while (!WindowClosed)
+        {
+            Window->Dispatcher->ProcessEvents(CoreProcessEventsOption::ProcessAllIfPresent);
+
+            // run game code here
+            // ...
+
+        }
     }
 
     virtual void Uninitialize() {}
