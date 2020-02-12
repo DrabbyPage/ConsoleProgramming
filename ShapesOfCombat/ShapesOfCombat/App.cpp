@@ -48,10 +48,10 @@ public:
 
         // The only template parameter this event uses is SuspendingEventArgs. It has only one member,
         // which is useful when saving data. I'll talk about it below.
-        //CoreApplication::Suspending += ref new EventHandler<SuspendingEventArgs^>(this, &App::Suspending);
+        CoreApplication::Suspending += ref new EventHandler<SuspendingEventArgs^>(this, &App::Suspending);
 
         // adding the resuming event
-        //CoreApplication::Resuming += ref new EventHandler<Object^>(this, &App::Resuming);
+        CoreApplication::Resuming += ref new EventHandler<Object^>(this, &App::Resuming);
 
         WindowClosed = false;    // initialize to false
     }
@@ -66,6 +66,9 @@ public:
 
         // this tells windows about the "KeyUp" Event
         Window->KeyUp += ref new TypedEventHandler<CoreWindow^, KeyEventArgs^>(this, &App::KeyUp);
+
+        // this tells windows about the event for closing the window
+        Window->Closed += ref new TypedEventHandler <CoreWindow^, CoreWindowEventArgs^>(this, &App::Closed);
     }
 
     virtual void Load(String^ EntryPoint) {}
@@ -168,6 +171,12 @@ public:
     void Resuming(Object^ Sender, Object^ Args)
     {
 
+    }
+
+    // event for when the window closes
+    void Closed(CoreWindow^ sender, CoreWindowEventArgs^ args)
+    {
+        WindowClosed = true;    // Time to end the endless loop
     }
 
 };
