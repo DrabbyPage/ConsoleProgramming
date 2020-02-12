@@ -21,6 +21,7 @@ public:
 	*/
 	ComPtr<ID3D11Device1> dev;              // the device interface
 	ComPtr<ID3D11DeviceContext1> devcon;    // the device context interface
+	ComPtr<IDXGISwapChain1> swapchain;      // the swap chain interface
 
 
 	// this is the game's start function (only happens once)
