@@ -1,5 +1,6 @@
 // Include the precompiled headers
 #include "pch.h"
+#include "Game.h"
 
 // Use some common namespaces to simplify the code
 using namespace Windows::ApplicationModel;
@@ -32,6 +33,7 @@ constructor. Then we call the ShowAsync() function. And that's all!
 ref class App sealed : public IFrameworkView
 {
     bool WindowClosed;    // change to true when it's time to close the window
+    ShapesOfCombat gameSOC;
 public:
     // some functions called by Windows
     virtual void Initialize(CoreApplicationView^ AppView)
@@ -75,7 +77,7 @@ public:
 
     virtual void Run()
     {
-
+        gameSOC.Initialize();
         // Obtain a pointer to the window
         CoreWindow^ Window = CoreWindow::GetForCurrentThread();
 
@@ -94,6 +96,8 @@ public:
 
             // run game code here
             // ...
+            gameSOC.Update();
+            gameSOC.Render();
 
         }
     }
