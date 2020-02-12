@@ -35,9 +35,15 @@
     <ClCompile Include="App.cpp">
       <Filter>Content</Filter>
     </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Content</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Game.h">
+      <Filter>Content</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\StoreLogo.png">
