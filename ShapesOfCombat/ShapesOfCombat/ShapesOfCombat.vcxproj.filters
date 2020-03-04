@@ -29,6 +29,21 @@
     <Image Include="Assets\Wide310x150Logo.scale-200.png">
       <Filter>Assets</Filter>
     </Image>
+    <Filter Include="Content\Physics">
+      <UniqueIdentifier>{09ba2ae5-7a50-488c-9fdd-677aba600bf8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Physics\Headers">
+      <UniqueIdentifier>{f51d86cf-bc3e-4da0-911a-500935cca55e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Physics\Source">
+      <UniqueIdentifier>{58f94aee-793e-4b34-9b31-b62466152b85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\GameObject">
+      <UniqueIdentifier>{a6ab9382-0b66-45cd-ba8d-72fbb4d6154a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Physics\Headers\Collisions">
+      <UniqueIdentifier>{2e93ca2d-46e4-4713-8840-7e234418df6c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -38,11 +53,38 @@
     <ClCompile Include="Game.cpp">
       <Filter>Content</Filter>
     </ClCompile>
+    <ClCompile Include="SOC_GameObject.cpp">
+      <Filter>Content\GameObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
     <ClInclude Include="Game.h">
       <Filter>Content</Filter>
+    </ClInclude>
+    <ClInclude Include="SOC_GameObject.h">
+      <Filter>Content\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="SOC_VectorMath.h">
+      <Filter>Content\Physics\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="SOC_Particle2D.h">
+      <Filter>Content\Physics\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="SOC_ObjectType.h">
+      <Filter>Content\Physics\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="SOC_CollisionHull2D.h">
+      <Filter>Content\Physics\Headers\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="SOC_CircleCollisionHull2D.h">
+      <Filter>Content\Physics\Headers\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="SOC_OBBCollisionHull2D.h">
+      <Filter>Content\Physics\Headers\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="SOC_AABBCollisionHull2D.h">
+      <Filter>Content\Physics\Headers\Collisions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

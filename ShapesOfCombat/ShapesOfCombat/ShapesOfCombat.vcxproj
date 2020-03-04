@@ -252,6 +252,14 @@
   <ItemGroup>
     <ClInclude Include="Game.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="SOC_AABBCollisionHull2D.h" />
+    <ClInclude Include="SOC_CircleCollisionHull2D.h" />
+    <ClInclude Include="SOC_CollisionHull2D.h" />
+    <ClInclude Include="SOC_GameObject.h" />
+    <ClInclude Include="SOC_OBBCollisionHull2D.h" />
+    <ClInclude Include="SOC_ObjectType.h" />
+    <ClInclude Include="SOC_Particle2D.h" />
+    <ClInclude Include="SOC_VectorMath.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
@@ -266,6 +274,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="SOC_GameObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
