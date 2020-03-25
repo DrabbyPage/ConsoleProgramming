@@ -3,6 +3,8 @@
 #include <Windows.h>
 #include <string>
 #include "SOC_Graphics.h"
+#include"SOC_Level1.h"
+#include "SOC_GameController.h"
 
 //https://www.youtube.com/watch?v=p91FvlnyOyo&list=PLKK11Ligqitij8r6hd6tfqqesh3T_xWJA
 
@@ -16,6 +18,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		return 0;
 	}
 	
+	/*
 	if (uMsg == WM_PAINT)
 	{
 		graphics->BeginDraw();
@@ -28,6 +31,9 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 		graphics->EndDraw();
 	}
+	*/
+
+
 
 	return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
@@ -73,15 +79,39 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE prevInstance, LPWSTR cmd, int
 		return -1;
 	}
 
+	SOC_GameLevel::Init(graphics);
+
 	ShowWindow(windowHandle, nCmdShow);
 
-	MSG message;
+	SOC_GameController::LoadInitialLevel(new SOC_Level1());
 
+	MSG message;
+	message.message = WM_NULL;
+	while (message.message != WM_QUIT)
+	{
+		if (PeekMessage(&message, NULL, 0, 0, PM_REMOVE))
+		{
+			DispatchMessage(&message);
+		}
+		else
+		{
+			SOC_GameController::Update();
+			// render
+			graphics->BeginDraw();
+			SOC_GameController::Render();
+
+			graphics->EndDraw();
+
+		}
+	}
+
+	/*
+	MSG message;a6
 	while (GetMessage(&message, NULL, 0, 0))
 	{
 		DispatchMessage(&message);
 	}
-
+	*/
 	// done with the window stuff
 
 	delete graphics;

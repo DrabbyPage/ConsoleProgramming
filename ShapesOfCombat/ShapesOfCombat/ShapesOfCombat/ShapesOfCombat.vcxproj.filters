@@ -19,6 +19,24 @@
     <Filter Include="Source Files\Graphics">
       <UniqueIdentifier>{05d7cd40-17ee-48ee-a6dc-d2de0ef91347}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Game">
+      <UniqueIdentifier>{d77ce8b3-9a06-4b14-9adf-222b0580191c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game">
+      <UniqueIdentifier>{b56e84d8-0d9c-4747-a077-dc47c0b8a739}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameObject">
+      <UniqueIdentifier>{f9a84caa-e6de-4456-8782-21d4076afec2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameObject">
+      <UniqueIdentifier>{964d2962-854e-4f36-845b-73f6339d93d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameObject\Physics">
+      <UniqueIdentifier>{b3189a6b-27cd-4672-bef4-1815135a0971}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameObject\Physics">
+      <UniqueIdentifier>{a65e4ce0-bb7f-4a4a-9073-cc58e3b8c13b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -27,10 +45,69 @@
     <ClCompile Include="SOC_Graphics.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="SOC_GameController.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="SOC_Level1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SOC_GameLevel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SOC_Spritesheet.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="SOC_GameObject.cpp">
+      <Filter>Source Files\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="SOC_Vector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SOC_Physics.cpp">
+      <Filter>Source Files\GameObject\Physics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SOC_Graphics.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="SOC_GameLevel.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="SOC_GameController.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="SOC_Level1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SOC_Spritesheet.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="SOC_GameObject.h">
+      <Filter>Header Files\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="SOC_Physics.h">
+      <Filter>Header Files\GameObject\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="SOC_Vector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SOC_CollisionHull2D.h">
+      <Filter>Header Files\GameObject\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="SOC_CircleCollisionHull2D.h">
+      <Filter>Header Files\GameObject\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="SOC_AABBCollisionHull2D.h">
+      <Filter>Header Files\GameObject\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="SOC_OBBCollisionHull2D.h">
+      <Filter>Header Files\GameObject\Physics</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="test.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
