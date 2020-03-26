@@ -153,15 +153,11 @@
     <ClCompile Include="SOC_Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SOC_AABBCollisionHull2D.h" />
-    <ClInclude Include="SOC_CircleCollisionHull2D.h" />
-    <ClInclude Include="SOC_CollisionHull2D.h" />
     <ClInclude Include="SOC_GameLevel.h" />
     <ClInclude Include="SOC_GameController.h" />
     <ClInclude Include="SOC_GameObject.h" />
     <ClInclude Include="SOC_Graphics.h" />
     <ClInclude Include="SOC_Level1.h" />
-    <ClInclude Include="SOC_OBBCollisionHull2D.h" />
     <ClInclude Include="SOC_Physics.h" />
     <ClInclude Include="SOC_Spritesheet.h" />
     <ClInclude Include="SOC_Vector.h" />

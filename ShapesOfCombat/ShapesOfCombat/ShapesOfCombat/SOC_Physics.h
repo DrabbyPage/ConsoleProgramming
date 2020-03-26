@@ -5,11 +5,6 @@
 
 #include "SOC_Vector.h"
 
-#include "SOC_CollisionHull2D.h"
-#include "SOC_CircleCollisionHull2D.h"
-#include "SOC_AABBCollisionHull2D.h"
-#include "SOC_OBBCollisionHull2D.h"
-
 enum SOC_ObjectType
 {
     DISK_INERTIA = 0,

@@ -37,6 +37,9 @@
     <Filter Include="Header Files\GameObject\Physics">
       <UniqueIdentifier>{a65e4ce0-bb7f-4a4a-9073-cc58e3b8c13b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\InputManager">
+      <UniqueIdentifier>{7407963c-9964-462e-9d13-39b7d7449d58}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -91,18 +94,6 @@
     </ClInclude>
     <ClInclude Include="SOC_Vector.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SOC_CollisionHull2D.h">
-      <Filter>Header Files\GameObject\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="SOC_CircleCollisionHull2D.h">
-      <Filter>Header Files\GameObject\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="SOC_AABBCollisionHull2D.h">
-      <Filter>Header Files\GameObject\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="SOC_OBBCollisionHull2D.h">
-      <Filter>Header Files\GameObject\Physics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
