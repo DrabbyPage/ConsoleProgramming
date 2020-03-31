@@ -29,7 +29,7 @@ void SOC_GameObject::Update()
 
 void SOC_GameObject::Render()
 {
-	objectSpriteSheet->Draw(100, 100);
+	objectSpriteSheet->Draw(100, 100,45);
 
 	objectSpriteSheet->IncrementFrame();
 }
