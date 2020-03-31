@@ -14,7 +14,7 @@ public:
 	~SOC_SpriteSheet();
 
 	void Draw();
-	void Draw(float x, float y);
+	void Draw(float x, float y, float rotation);
 
 	void SetSpriteWidth(float newW) { spriteWidth = newW; }
 	void SetSpriteHeight(float newH) { spriteHeight = newH; }

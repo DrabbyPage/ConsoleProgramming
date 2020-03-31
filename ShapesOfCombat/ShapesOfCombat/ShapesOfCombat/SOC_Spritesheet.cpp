@@ -81,11 +81,19 @@ void SOC_SpriteSheet::Draw()
 		);
 }
 
-void SOC_SpriteSheet::Draw(float x, float y)
+void SOC_SpriteSheet::Draw(float x, float y, float rotation)
 {
 	// 9:30
 	D2D_RECT_F src;
 
+	/*
+    // Apply the rotation transform to the render target.
+    m_pRenderTarget->SetTransform(
+        D2D1::Matrix3x2F::Rotation(
+            45.0f,
+            D2D1::Point2F(468.0f, 331.5f))
+        );
+	*/
 	if (amountOfFrames > 1)
 	{
 		src = D2D1::RectF(
@@ -109,6 +117,8 @@ void SOC_SpriteSheet::Draw(float x, float y)
 			D2D1_BITMAP_INTERPOLATION_MODE::D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR,
 			src
 			);
+
+		graphics->GetRenderTarget()->SetTransform(D2D1::Matrix3x2F::Rotation(rotation, D2D1::Point2F(x, y)));
 	}
 	else
 	{
@@ -121,6 +131,8 @@ void SOC_SpriteSheet::Draw(float x, float y)
 			D2D1::RectF(0.0f, 0.0f,
 				bmp->GetSize().width, bmp->GetSize().height)
 			);
+
+		graphics->GetRenderTarget()->SetTransform(D2D1::Matrix3x2F::Rotation(rotation, D2D1::Point2F(x, y)));
 	}
 
 }
