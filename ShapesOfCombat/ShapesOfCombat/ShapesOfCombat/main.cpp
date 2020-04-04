@@ -156,7 +156,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE prevInstance, LPWSTR cmd, int
 
 	ShowWindow(windowHandle, nCmdShow);
 
-	SOC_GameController::LoadInitialLevel(new SOC_Level1());
+	SOC_GameController::LoadInitialLevel(new SOC_Level1(), windowHandle);
 
 	MSG message;
 	message.message = WM_NULL;
@@ -170,7 +170,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE prevInstance, LPWSTR cmd, int
 		{
 			SOC_GameController::Update();
 			// render
-			graphics->BeginDraw();
 			SOC_GameController::Render();
 
 			graphics->EndDraw();

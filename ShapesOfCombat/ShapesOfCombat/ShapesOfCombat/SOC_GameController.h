@@ -13,8 +13,8 @@ public:
 
 	static void Init();
 
-	static void LoadInitialLevel(SOC_GameLevel* level);
-	static void SwitchLevel(SOC_GameLevel* level);
+	static void LoadInitialLevel(SOC_GameLevel* level, HWND newWinHandle);
+	static void SwitchLevel(SOC_GameLevel* level, HWND newWinHandle);
 
 	static void Render();
 	static void Update();

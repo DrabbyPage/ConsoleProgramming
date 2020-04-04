@@ -30,7 +30,7 @@ public:
 	void SetVelocity(SOC_Vector2 newVel) { kinematics.velocity = newVel; }
 	void SetAngularVelocity(float newAngVel) { kinematics.angularVelocity = newAngVel; }
     
-	SOC_Vector2 GetPosition() { kinematics.position; }
+	SOC_Vector2 GetPosition() { return kinematics.position; }
 	SOC_Vector2 GetVelocity() { return kinematics.velocity; }
 	float GetRotation() { return kinematics.rotation; }
 	float GetAngularRotation() { return kinematics.angularVelocity; }

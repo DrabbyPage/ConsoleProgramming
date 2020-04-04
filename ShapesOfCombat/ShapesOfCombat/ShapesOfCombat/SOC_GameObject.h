@@ -13,16 +13,20 @@ class SOC_GameObject
 {
 public: 
 	SOC_GameObject();
-	SOC_GameObject(const wchar_t* filename, SOC_Graphics* newGraphics,float frameWidth, float frameHeight, int amountOfFrames);
+	SOC_GameObject(const wchar_t* filename, HWND newWinHandle,float frameWidth, float frameHeight, int amountOfFrames);
 	~SOC_GameObject();
 
 	void Update();
 	void Render();
 
+	SOC_Graphics* GetObjectGraphics() { return objectGraphics; }
+
 private:
 
 	SOC_SpriteSheet* objectSpriteSheet;
 	SOC_Physics2D* objectPhysics;
+
+	SOC_Graphics* objectGraphics;
 };
 
 #endif
