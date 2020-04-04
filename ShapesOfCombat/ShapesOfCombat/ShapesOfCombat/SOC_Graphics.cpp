@@ -46,6 +46,8 @@ bool SOC_Graphics::Init(HWND windowHandle)
 		D2D1::HwndRenderTargetProperties(windowHandle, D2D1::SizeU(rect.right, rect.bottom)),
 		&renderTarget);
 
+	
+
 	if(res != S_OK)
 	{
 		return false;
@@ -76,3 +78,10 @@ void SOC_Graphics::DrawCircle(float x, float y, float radius, float r, float g, 
 
 }
 
+SOC_Vector2 SOC_Graphics::GetCursorPosFromGraphics()
+{
+	POINT actualCursorPos;
+	GetCursorPos(&actualCursorPos);
+	cursorPos = SOC_Vector2(actualCursorPos.x + windowPos.xVal, actualCursorPos.y + windowPos.yVal);
+	return cursorPos;
+}

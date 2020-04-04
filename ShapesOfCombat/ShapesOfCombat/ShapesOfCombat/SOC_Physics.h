@@ -27,7 +27,9 @@ public:
 	void UpdatePosition(float deltaTime);
 	void UpdateRotation(float deltaTime);
 	 
+	void SetPosition(SOC_Vector2 newPos) { kinematics.position = newPos; }
 	void SetVelocity(SOC_Vector2 newVel) { kinematics.velocity = newVel; }
+	void SetRotation(float newRot) { kinematics.rotation = newRot; }
 	void SetAngularVelocity(float newAngVel) { kinematics.angularVelocity = newAngVel; }
     
 	SOC_Vector2 GetPosition() { return kinematics.position; }

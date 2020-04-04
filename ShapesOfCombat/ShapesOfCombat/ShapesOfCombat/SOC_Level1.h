@@ -8,7 +8,7 @@
 class SOC_Level1 : public SOC_GameLevel
 {
 public:
-	void Load(HWND newWinHandle) override;
+	void Load(HWND newWinHandle, SOC_Vector2 windowPos) override;
 	void Unload() override;
 	void Render() override;
 	void Update() override;

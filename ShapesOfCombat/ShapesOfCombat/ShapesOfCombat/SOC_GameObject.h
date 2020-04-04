@@ -13,7 +13,7 @@ class SOC_GameObject
 {
 public: 
 	SOC_GameObject();
-	SOC_GameObject(const wchar_t* filename, HWND newWinHandle,float frameWidth, float frameHeight, int amountOfFrames);
+	SOC_GameObject(const wchar_t* filename, HWND newWinHandle, SOC_Vector2 windowPos, float frameWidth, float frameHeight, int amountOfFrames);
 	~SOC_GameObject();
 
 	void Update();

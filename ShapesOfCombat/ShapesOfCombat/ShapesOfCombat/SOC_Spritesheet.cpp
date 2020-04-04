@@ -122,17 +122,23 @@ void SOC_SpriteSheet::Draw(float x, float y, float rotation)
 	}
 	else
 	{
+		D2D_RECT_F dest = D2D1::RectF
+		(
+			x, y,
+			x + spriteWidth,
+			y + spriteHeight
+			);
+
 		graphics->GetRenderTarget()->DrawBitmap(
 			bmp,
-			D2D1::Rect(x, y,
-				bmp->GetSize().width, bmp->GetSize().height),
+			dest,
 			1.0f,
 			D2D1_BITMAP_INTERPOLATION_MODE::D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR,
 			D2D1::RectF(0.0f, 0.0f,
 				bmp->GetSize().width, bmp->GetSize().height)
 			);
 
-		graphics->GetRenderTarget()->SetTransform(D2D1::Matrix3x2F::Rotation(rotation, D2D1::Point2F(x, y)));
+		graphics->GetRenderTarget()->SetTransform(D2D1::Matrix3x2F::Rotation(rotation, D2D1::Point2F(x+spriteWidth/2, y+spriteHeight/2)));
 	}
 
 }

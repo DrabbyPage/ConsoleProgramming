@@ -137,7 +137,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE prevInstance, LPWSTR cmd, int
 	RECT rect{ 0,0,800,600 };
 	AdjustWindowRectEx(&rect, WS_OVERLAPPEDWINDOW, false, WS_EX_OVERLAPPEDWINDOW);
 
-	HWND windowHandle = CreateWindow(windowClass.lpszClassName, actualWindowName, WS_OVERLAPPEDWINDOW, 100,100,
+	SOC_Vector2 windowPos = SOC_Vector2(0, 0);
+
+	HWND windowHandle = CreateWindow(windowClass.lpszClassName, actualWindowName, WS_OVERLAPPEDWINDOW, (int)windowPos.xVal, (int)windowPos.yVal,
 		rect.right - rect.left, rect.bottom - rect.top, NULL, NULL, hInstance,0);
 
 	if (!windowHandle)
@@ -156,7 +158,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE prevInstance, LPWSTR cmd, int
 
 	ShowWindow(windowHandle, nCmdShow);
 
-	SOC_GameController::LoadInitialLevel(new SOC_Level1(), windowHandle);
+	SOC_GameController::LoadInitialLevel(new SOC_Level1(), windowHandle, windowPos);
 
 	MSG message;
 	message.message = WM_NULL;
