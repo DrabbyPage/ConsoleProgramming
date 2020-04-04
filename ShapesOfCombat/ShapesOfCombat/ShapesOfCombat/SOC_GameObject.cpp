@@ -32,11 +32,21 @@ SOC_GameObject::~SOC_GameObject()
 	{
 		delete objectSpriteSheet;
 	}
+	if (objectPhysics)
+	{
+		delete objectPhysics;
+	}
+	if (objectGraphics)
+	{
+		delete objectGraphics;
+	}
 }
 
 void SOC_GameObject::Update()
 {
 	//POINT cursorPos;
+
+	// this is how to get direction to mouse ( if the pos of the window is 0,0)
 	SOC_Vector2 objPos = objectPhysics->GetPosition();
 
 	SOC_Vector2 cursorPos = objectGraphics->GetCursorPosFromGraphics();
@@ -52,17 +62,29 @@ void SOC_GameObject::Update()
 	objectPhysics->SetRotation(newRot);
 }
 
-void SOC_GameObject::Render()
+void SOC_GameObject::BeginDrawing()
 {
 	objectGraphics->BeginDraw();
+}
 
-	objectGraphics->ClearScreen(0, 0, 0);
 
+void SOC_GameObject::ClearScreenBeforeRender(float r, float g, float b)
+{
+	objectGraphics->ClearScreen(r, g, b);
+}
+
+void SOC_GameObject::Render()
+{
 	objectSpriteSheet->Draw(objectPhysics->GetPosition().xVal, objectPhysics->GetPosition().yVal, objectPhysics->GetRotation());
 
-	//objectSpriteSheet->IncrementFrame();
+	// need some sort of frame counter and/ or timer to switch
+	if (objectSpriteSheet->GetAmountOfFrames() > 1)
+	{
+		objectSpriteSheet->IncrementFrame();
+	}
+}
 
+void SOC_GameObject::EndDrawing()
+{
 	objectGraphics->EndDraw();
-
-	
 }

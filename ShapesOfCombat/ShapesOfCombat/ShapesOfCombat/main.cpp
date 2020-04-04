@@ -174,8 +174,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE prevInstance, LPWSTR cmd, int
 			// render
 			SOC_GameController::Render();
 
-			graphics->EndDraw();
-
 		}
 	}
 

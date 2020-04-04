@@ -17,7 +17,10 @@ public:
 	~SOC_GameObject();
 
 	void Update();
+	void BeginDrawing();
+	void ClearScreenBeforeRender(float r, float g, float b);
 	void Render();
+	void EndDrawing();
 
 	SOC_Graphics* GetObjectGraphics() { return objectGraphics; }
 
