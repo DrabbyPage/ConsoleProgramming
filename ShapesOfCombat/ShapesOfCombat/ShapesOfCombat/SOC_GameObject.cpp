@@ -45,6 +45,8 @@ void SOC_GameObject::Update()
 
 	float newRot = atan2(diff.yVal, diff.xVal) * 180.0f / PI;
 
+	newRot = -newRot + 180;
+
 	std::cout << "rotation: " << newRot << ", ";
 
 	objectPhysics->SetRotation(newRot);
