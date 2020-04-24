@@ -6,9 +6,15 @@
 #include"SOC_Level1.h"
 #include "SOC_GameController.h"
 #include <iostream>
+#include <Xinput.h>
+#include "GamePad.h"
 //https://www.youtube.com/watch?v=p91FvlnyOyo&list=PLKK11Ligqitij8r6hd6tfqqesh3T_xWJA
 
+using namespace std;
+
 SOC_Graphics* graphics;
+Gamepad gamepad; // Gamepad instance
+
 
 /*
  * VK_0 - VK_9 are the same as ASCII '0' - '9' (0x30 - 0x39)
@@ -56,9 +62,101 @@ enum KeyboardKey
 	VK_Z = 0x5A,
 };
 
+
+// This example checks input on all gamepad buttons (Guide/logo
+// button not supported). For example code on using the triggers
+// and thumbsticks, please refer to the tutorial.
+void TestInput()
+{
+	// GetButtonDown only returns true on the frame it was first pressed.
+	if (gamepad.GetButtonDown(xButtons.A) || GetKeyState(VK_S))
+	{
+		cout << " Button [A] pressed" << endl;
+		//PostQuitMessage(0);
+	}
+
+	if (gamepad.GetButtonDown(xButtons.X) || GetKeyState(VK_A))
+	{
+		cout << " Button [X] pressed" << endl;
+		//PostQuitMessage(0);
+	}
+
+	// GetButtonPressed will keep returning true until the button is released.
+	if (gamepad.GetButtonPressed(xButtons.Y) || GetKeyState(VK_W))
+	{
+		cout << " Button [Y] held, see how this doesn't appear just once?" << endl;
+		//PostQuitMessage(0);
+	}
+
+	if (gamepad.GetButtonDown(xButtons.B) || GetKeyState(VK_D))
+	{
+		cout << " Button [B] pressed" << endl;
+		//PostQuitMessage(0);
+	}
+
+	// Check the D-Pad buttons
+	if (gamepad.GetButtonDown(xButtons.DPad_Up))
+	{
+		cout << " Button [DPad Up] pressed" << endl;
+	}
+
+	if (gamepad.GetButtonDown(xButtons.DPad_Down))
+	{
+		cout << " Button [DPad Down] pressed" << endl;
+	}
+
+	if (gamepad.GetButtonDown(xButtons.DPad_Left))
+	{
+		cout << " Button [DPad Left] pressed" << endl;
+	}
+
+	if (gamepad.GetButtonDown(xButtons.DPad_Right))
+	{
+		cout << " Button [DPad Right] pressed" << endl;
+	}
+
+	// Check the Shoulder ('bumper') buttons
+	if (gamepad.GetButtonDown(xButtons.L_Shoulder))
+	{
+		cout << " Button [L Bumper] pressed" << endl;
+	}
+
+	if (gamepad.GetButtonDown(xButtons.R_Shoulder))
+	{
+		cout << " Button [R Bumper] pressed" << endl;
+	}
+
+	// Check the BACK and START buttons
+	if (gamepad.GetButtonDown(xButtons.Back))
+	{
+		cout << " Button [BACK] pressed" << endl;
+	}
+
+	if (gamepad.GetButtonDown(xButtons.Start))
+	{
+		cout << " Button [START] pressed" << endl;
+	}
+
+	// Check the Thumbstick buttons (press in the thumbstick)
+	if (gamepad.GetButtonDown(xButtons.L_Thumbstick))
+	{
+		cout << " Button [L STICK] pressed" << endl;
+	}
+
+	if (gamepad.GetButtonDown(xButtons.R_Thumbstick))
+	{
+		cout << " Button [R STICK] pressed" << endl;
+	}
+}
+
+
 // LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+	if (gamepad.GetButtonDown(xButtons.A))
+	{
+		PostQuitMessage(0);
+	}
 	switch (uMsg)
 	{
 	case WM_DESTROY:
@@ -98,9 +196,36 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case VK_SHIFT:
 		// to test it PostQuitMessage(0);
 		break;
-	case VK_A:
-		// to test is PostQuitMessage(0);
+	case VK_W:
+	case VK_UP:
+	case XINPUT_GAMEPAD_DPAD_UP:
+	case XINPUT_GAMEPAD_Y:
+	{
+		//PostQuitMessage(0);
 		break;
+	}
+	case VK_A:
+	case VK_LEFT:
+	case XINPUT_GAMEPAD_DPAD_LEFT:
+	case XINPUT_GAMEPAD_X:
+	{
+		//PostQuitMessage(0);
+		break;
+	}
+	case VK_S:
+	case VK_DOWN:
+	case XINPUT_GAMEPAD_DPAD_DOWN:
+	case XINPUT_GAMEPAD_A:
+	{
+		break;
+	}
+	case VK_D:
+	case VK_RIGHT:
+	case XINPUT_GAMEPAD_DPAD_RIGHT:
+	case XINPUT_GAMEPAD_B:
+	{
+		break;
+	}
 	case VK_CONTROL:
 		vk = (static_cast<UINT>(lParam) & 0x01000000) ? VK_RCONTROL : VK_LCONTROL;
 		break;
@@ -113,6 +238,8 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE prevInstance, LPWSTR cmd, int nCmdShow)
 {
+	gamepad = Gamepad(1); // Set gamepad ID to 1
+
 	// making the window appear
 	std::string className = "MainWindow";
 	std::wstring ctemp = std::wstring(className.begin(), className.end());
@@ -174,8 +301,14 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE prevInstance, LPWSTR cmd, int
 			// render
 			SOC_GameController::Render();
 
-			graphics->EndDraw();
+			gamepad.Update(); // Update gamepad
 
+			if (gamepad.Connected())
+			{
+				// Run gamepad input test
+				//TestGamepad();
+				TestInput();
+			}
 		}
 	}
 

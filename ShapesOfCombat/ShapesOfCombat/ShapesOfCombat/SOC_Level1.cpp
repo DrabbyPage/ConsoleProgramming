@@ -22,16 +22,17 @@ void SOC_Level1::Unload()
 
 void SOC_Level1::Render()
 {
-	graphics->BeginDraw();
+	//graphics->BeginDraw();
 
-	graphics->ClearScreen(0.0, 0.0, 0.0);
+	//graphics->ClearScreen(0.0, 0.0, 0.0);
 
-	graphics->DrawCircle(250, 250, 50, 1, 0.5, 0.5, 1.0);
+	//graphics->DrawCircle(250, 250, 50, 1, 0.5, 0.5, 1.0);
 
 	//spritesheet->Draw(frame%10, 100, 100);
 	testObject->Render();
 
-	
+	//graphics->EndDraw();
+
 }
 
 void SOC_Level1::Update()
