@@ -154,6 +154,7 @@
     <ClCompile Include="SOC_Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameInput.h" />
     <ClInclude Include="GamePad.h" />
     <ClInclude Include="SOC_GameLevel.h" />
     <ClInclude Include="SOC_GameController.h" />
@@ -165,6 +166,14 @@
     <ClInclude Include="SOC_Vector.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="PlayerDown.png" />
+    <Image Include="PlayerLeft.png" />
+    <Image Include="PlayerRight.png" />
+    <Image Include="PlayerUp.png" />
+    <Image Include="SpaceZapEnemyDown.png" />
+    <Image Include="SpaceZapEnemyLeft.png" />
+    <Image Include="SpaceZapEnemyRight.png" />
+    <Image Include="SpaceZapEnemyUp.png" />
     <Image Include="test.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

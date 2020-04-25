@@ -139,6 +139,7 @@ void SOC_SpriteSheet::Draw(float x, float y, float rotation)
 				bmp->GetSize().width, bmp->GetSize().height)
 			);
 
+		
 		graphics->GetRenderTarget()->SetTransform(D2D1::Matrix3x2F::Rotation(rotation, D2D1::Point2F(x, y)));
 	}
 

@@ -4,6 +4,7 @@
 #include "SOC_GameLevel.h"
 #include "SOC_Spritesheet.h"
 #include "SOC_GameObject.h"
+#include "GameInput.h"
 
 class SOC_Level1 : public SOC_GameLevel
 {
@@ -11,14 +12,16 @@ public:
 	void Load(HWND newWinHandle, SOC_Vector2 windowPos) override;
 	void Unload() override;
 	void Render() override;
-	void Update() override;
+	void Update(GameInput direction) override;
 
 private:
-	float y;
-	float ySpeed;
 	
 	int frame;
 
 	SOC_GameObject* testObject;
+
+	SOC_GameObject* player;
+
+	SOC_GameObject* enemy;
 	//SOC_SpriteSheet* spritesheet;
 };

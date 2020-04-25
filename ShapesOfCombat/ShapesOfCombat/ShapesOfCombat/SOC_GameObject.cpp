@@ -5,40 +5,45 @@
 #include <iostream>
 
 #define PI 3.14159265f
+extern SOC_Graphics* graphics;
 
 SOC_GameObject::SOC_GameObject()
 {
 	objectPhysics = NULL;
-	objectSpriteSheet = NULL;
-	objectGraphics = NULL;
 }
 
 SOC_GameObject::SOC_GameObject(const wchar_t* filename, HWND newWinHandle, SOC_Vector2 newWinPos, float frameWidth, float frameHeight, int amountOfFrames)
 {
-	objectGraphics = new SOC_Graphics();
-	objectGraphics->SetWindowPos(newWinPos);
-	objectGraphics->Init(newWinHandle);
 
-	objectSpriteSheet = new SOC_SpriteSheet(filename, objectGraphics, frameWidth, frameHeight, amountOfFrames);
+	SOC_SpriteSheet* newSpriteSheet = new SOC_SpriteSheet(filename, graphics, frameWidth, frameHeight, amountOfFrames);
 	objectPhysics = new SOC_Physics2D();
 
 	objectPhysics->SetPosition(SOC_Vector2(250, 250));
+
+	listOfSprites.push_back(newSpriteSheet);
 	
 }
 
+void SOC_GameObject::AddSprite(const wchar_t* filename, HWND newWinHandle, SOC_Vector2 windowPos, float frameWidth, float frameHeight, int amountOfFrames)
+{
+	SOC_SpriteSheet* newSpriteSheet = new SOC_SpriteSheet(filename, graphics, frameWidth, frameHeight, amountOfFrames);
+
+	listOfSprites.push_back(newSpriteSheet);
+}
+void SOC_GameObject::ChangeToSprite(int spriteID)
+{
+	if (spriteID != -1 && spriteID < listOfSprites.size())
+	{
+		currentSpriteSheet = spriteID;
+	}
+}
+
+
 SOC_GameObject::~SOC_GameObject()
 {
-	if (objectSpriteSheet)
-	{
-		delete objectSpriteSheet;
-	}
 	if (objectPhysics)
 	{
 		delete objectPhysics;
-	}
-	if (objectGraphics)
-	{
-		delete objectGraphics;
 	}
 }
 
@@ -49,7 +54,7 @@ void SOC_GameObject::Update()
 	// this is how to get direction to mouse ( if the pos of the window is 0,0)
 	SOC_Vector2 objPos = objectPhysics->GetPosition();
 
-	SOC_Vector2 cursorPos = objectGraphics->GetCursorPosFromGraphics();
+	SOC_Vector2 cursorPos = graphics->GetCursorPosFromGraphics();
 
 	SOC_Vector2 diff = SOC_Vector2(cursorPos.yVal - objPos.yVal, cursorPos.xVal - objPos.xVal);
 
@@ -62,29 +67,16 @@ void SOC_GameObject::Update()
 	objectPhysics->SetRotation(newRot);
 }
 
-void SOC_GameObject::BeginDrawing()
-{
-	objectGraphics->BeginDraw();
-}
-
-
-void SOC_GameObject::ClearScreenBeforeRender(float r, float g, float b)
-{
-	objectGraphics->ClearScreen(r, g, b);
-}
 
 void SOC_GameObject::Render()
 {
-	objectSpriteSheet->Draw(objectPhysics->GetPosition().xVal, objectPhysics->GetPosition().yVal, objectPhysics->GetRotation());
+
+	listOfSprites[currentSpriteSheet]->Draw(objectPhysics->GetPosition().xVal, objectPhysics->GetPosition().yVal, objectPhysics->GetRotation());
 
 	// need some sort of frame counter and/ or timer to switch
-	if (objectSpriteSheet->GetAmountOfFrames() > 1)
+	if (listOfSprites[currentSpriteSheet]->GetAmountOfFrames() > 1)
 	{
-		objectSpriteSheet->IncrementFrame();
+		listOfSprites[currentSpriteSheet]->IncrementFrame();
 	}
 }
 
-void SOC_GameObject::EndDrawing()
-{
-	objectGraphics->EndDraw();
-}

@@ -5,6 +5,7 @@
 
 #include "SOC_GameLevel.h"
 #include "SOC_Graphics.h"
+#include "GameInput.h"
 
 class SOC_GameController
 {
@@ -17,7 +18,7 @@ public:
 	static void SwitchLevel(SOC_GameLevel* level, HWND newWinHandle, SOC_Vector2 newWinPos);
 
 	static void Render();
-	static void Update();
+	static void Update(GameInput direction);
 
 private:
 	SOC_GameController();

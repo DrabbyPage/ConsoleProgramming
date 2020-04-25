@@ -17,19 +17,21 @@ public:
 	~SOC_GameObject();
 
 	void Update();
-	void BeginDrawing();
-	void ClearScreenBeforeRender(float r, float g, float b);
 	void Render();
-	void EndDrawing();
 
-	SOC_Graphics* GetObjectGraphics() { return objectGraphics; }
+	void AddSprite(const wchar_t* filename, HWND newWinHandle, SOC_Vector2 windowPos, float frameWidth, float frameHeight, int amountOfFrames);
+	void ChangeToSprite(int spriteID);
+
+	void SetObjectPos(SOC_Vector2 newPos) { objectPhysics->SetPosition(newPos); }
+
 
 private:
 
-	SOC_SpriteSheet* objectSpriteSheet;
+	std::vector< SOC_SpriteSheet*> listOfSprites;
+	int currentSpriteSheet = 0;
+
 	SOC_Physics2D* objectPhysics;
 
-	SOC_Graphics* objectGraphics;
 };
 
 #endif

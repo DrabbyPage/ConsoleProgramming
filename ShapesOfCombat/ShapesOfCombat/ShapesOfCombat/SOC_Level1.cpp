@@ -6,9 +6,15 @@
 
 void SOC_Level1::Load(HWND newWindowHandle, SOC_Vector2 windowPos)
 {
-	y = ySpeed = 0;
-	//spritesheet = new SOC_SpriteSheet(L"test.png", graphics,60,60);
-	testObject = new SOC_GameObject(L"Player_Image.png", newWindowHandle, windowPos, 64, 64, 1);
+	player = new SOC_GameObject(L"PlayerUp.png", newWindowHandle, windowPos, 64, 64, 1);
+	player->AddSprite(L"PlayerRight.png", newWindowHandle, windowPos, 64, 64, 1);
+	player->AddSprite(L"PlayerDown.png", newWindowHandle, windowPos, 64, 64, 1);
+	player->AddSprite(L"PlayerLeft.png", newWindowHandle, windowPos, 64, 64, 1);
+
+	enemy = new SOC_GameObject(L"SpaceZapEnemyUp.png", newWindowHandle, windowPos, 64, 64, 1);
+	enemy->AddSprite(L"SpaceZapEnemyRight.png", newWindowHandle, windowPos, 64, 64, 1);
+	enemy->AddSprite(L"SpaceZapEnemyDown.png", newWindowHandle, windowPos, 64, 64, 1);
+	enemy->AddSprite(L"SpaceZapEnemyLeft.png", newWindowHandle, windowPos, 64, 64, 1);
 	frame = 0;
 }
 
@@ -22,32 +28,25 @@ void SOC_Level1::Unload()
 
 void SOC_Level1::Render()
 {
-	//graphics->BeginDraw();
+	graphics->BeginDraw();
 
-	//graphics->ClearScreen(0.0, 0.0, 0.0);
+	graphics->ClearScreen(0.0, 0.0, 0.0);
 
-	//graphics->DrawCircle(250, 250, 50, 1, 0.5, 0.5, 1.0);
+	
+	player->Render();
+	//enemy->Render();
+	
 
-	//spritesheet->Draw(frame%10, 100, 100);
-	testObject->Render();
-
-	//graphics->EndDraw();
+	graphics->EndDraw();
 
 }
 
-void SOC_Level1::Update()
+void SOC_Level1::Update(GameInput direction)
 {
-	testObject->Update();
 
 	// update
-	ySpeed += 1.0f;
-	y += ySpeed;
 
-	if (y > 600)
-	{
-		y = 600;
-		ySpeed = -30;
-	}
+	player->ChangeToSprite((int)direction);
+	player->SetObjectPos()
 
-	frame++;
 }

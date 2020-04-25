@@ -1,7 +1,7 @@
 
-
 #include <Windows.h>
 #include <string>
+#include "GameInput.h"
 #include "SOC_Graphics.h"
 #include"SOC_Level1.h"
 #include "SOC_GameController.h"
@@ -66,33 +66,43 @@ enum KeyboardKey
 // This example checks input on all gamepad buttons (Guide/logo
 // button not supported). For example code on using the triggers
 // and thumbsticks, please refer to the tutorial.
-void TestInput()
+GameInput TestInput()
 {
 	// GetButtonDown only returns true on the frame it was first pressed.
-	if (gamepad.GetButtonDown(xButtons.A) || GetKeyState(VK_S))
+	if (gamepad.GetButtonDown(xButtons.A) || GetKeyState(VK_S) ||
+		gamepad.GetButtonDown(xButtons.DPad_Down) )
 	{
 		cout << " Button [A] pressed" << endl;
 		//PostQuitMessage(0);
+		return GameInput::down;
 	}
 
-	if (gamepad.GetButtonDown(xButtons.X) || GetKeyState(VK_A))
+	if (gamepad.GetButtonDown(xButtons.X) || GetKeyState(VK_A) ||
+		gamepad.GetButtonDown(xButtons.DPad_Left) )
 	{
 		cout << " Button [X] pressed" << endl;
 		//PostQuitMessage(0);
+		return GameInput::left;
 	}
 
 	// GetButtonPressed will keep returning true until the button is released.
-	if (gamepad.GetButtonPressed(xButtons.Y) || GetKeyState(VK_W))
+	if (gamepad.GetButtonPressed(xButtons.Y) || GetKeyState(VK_W) ||
+		gamepad.GetButtonDown(xButtons.DPad_Up) )
 	{
 		cout << " Button [Y] held, see how this doesn't appear just once?" << endl;
 		//PostQuitMessage(0);
+		return GameInput::up;
 	}
 
-	if (gamepad.GetButtonDown(xButtons.B) || GetKeyState(VK_D))
+	if (gamepad.GetButtonDown(xButtons.B) || GetKeyState(VK_D) || 
+		gamepad.GetButtonDown(xButtons.DPad_Right) )
 	{
 		cout << " Button [B] pressed" << endl;
 		//PostQuitMessage(0);
+		return GameInput::right;
 	}
+
+	return GameInput::null;
 
 	// Check the D-Pad buttons
 	if (gamepad.GetButtonDown(xButtons.DPad_Up))
@@ -155,7 +165,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	if (gamepad.GetButtonDown(xButtons.A))
 	{
-		PostQuitMessage(0);
+		//PostQuitMessage(0);
 	}
 	switch (uMsg)
 	{
@@ -297,18 +307,23 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE prevInstance, LPWSTR cmd, int
 		}
 		else
 		{
-			SOC_GameController::Update();
+			gamepad.Update(); // Update gamepad
+
+			TestInput();
+
+			SOC_GameController::Update(TestInput());
 			// render
 			SOC_GameController::Render();
 
-			gamepad.Update(); // Update gamepad
 
+			/*
 			if (gamepad.Connected())
 			{
 				// Run gamepad input test
 				//TestGamepad();
 				TestInput();
 			}
+			*/
 		}
 	}
 

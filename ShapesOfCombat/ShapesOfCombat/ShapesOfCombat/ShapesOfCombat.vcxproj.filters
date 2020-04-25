@@ -57,9 +57,6 @@
     <ClCompile Include="SOC_Level1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SOC_GameLevel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SOC_Spritesheet.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
@@ -74,6 +71,9 @@
     </ClCompile>
     <ClCompile Include="GamePad.cpp">
       <Filter>Source Files\InputManager</Filter>
+    </ClCompile>
+    <ClCompile Include="SOC_GameLevel.cpp">
+      <Filter>Source Files\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -104,9 +104,36 @@
     <ClInclude Include="GamePad.h">
       <Filter>Header Files\InputManager</Filter>
     </ClInclude>
+    <ClInclude Include="GameInput.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="test.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="SpaceZapEnemyDown.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="SpaceZapEnemyLeft.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="SpaceZapEnemyRight.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="SpaceZapEnemyUp.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="PlayerDown.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="PlayerLeft.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="PlayerRight.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="PlayerUp.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

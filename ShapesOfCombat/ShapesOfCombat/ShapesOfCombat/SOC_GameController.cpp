@@ -32,9 +32,9 @@ void SOC_GameController::Render()
 	currentLevel->Render();
 }
 
-void SOC_GameController::Update()
+void SOC_GameController::Update(GameInput direction)
 {
-	currentLevel->Update();
+	currentLevel->Update(direction);
 }
 
 void SOC_GameController::Init()
