@@ -32,9 +32,9 @@ void SOC_GameController::Render()
 	currentLevel->Render();
 }
 
-void SOC_GameController::Update(GameInput direction)
+void SOC_GameController::Update(float deltaTime, GameInput direction)
 {
-	currentLevel->Update(direction);
+	currentLevel->Update(deltaTime, direction);
 }
 
 void SOC_GameController::Init()

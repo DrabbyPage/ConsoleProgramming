@@ -28,13 +28,14 @@ public:
 	SOC_Vector2 GetCursorPosFromGraphics();
 
 	void SetWindowPos(SOC_Vector2 newWinPos) { windowPos = newWinPos; }
-
+	SOC_Vector2 GetWindowSize() { return windowSize; }
 private:
 	ID2D1Factory* factory;
 	ID2D1HwndRenderTarget* renderTarget;
 	ID2D1SolidColorBrush* brush;
 
 	SOC_Vector2 windowPos;
+	SOC_Vector2 windowSize;
 	SOC_Vector2 cursorPos;
 
 	HWND graphicsWindowHandler;

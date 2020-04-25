@@ -18,7 +18,7 @@ public:
 	static void SwitchLevel(SOC_GameLevel* level, HWND newWinHandle, SOC_Vector2 newWinPos);
 
 	static void Render();
-	static void Update(GameInput direction);
+	static void Update(float deltaTime, GameInput direction);
 
 private:
 	SOC_GameController();

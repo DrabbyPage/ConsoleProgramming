@@ -46,7 +46,7 @@ bool SOC_Graphics::Init(HWND windowHandle)
 		D2D1::HwndRenderTargetProperties(windowHandle, D2D1::SizeU(rect.right, rect.bottom)),
 		&renderTarget);
 
-	
+	windowSize = SOC_Vector2((float)rect.right, (float)rect.bottom);
 
 	if(res != S_OK)
 	{

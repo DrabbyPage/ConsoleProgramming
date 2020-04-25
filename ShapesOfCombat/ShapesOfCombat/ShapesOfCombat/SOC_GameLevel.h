@@ -12,7 +12,7 @@ public:
 	virtual void Load(HWND newWinHandle, SOC_Vector2 windowPos) = 0;
 	virtual void Unload() = 0;
 	virtual void Render() = 0;
-	virtual void Update(GameInput direction) = 0;
+	virtual void Update(float deltaTime, GameInput direction) = 0;
 
 	static void Init(SOC_Graphics* newGraphics)
 	{

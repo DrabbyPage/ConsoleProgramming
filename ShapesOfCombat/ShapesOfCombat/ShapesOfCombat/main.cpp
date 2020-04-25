@@ -8,13 +8,15 @@
 #include <iostream>
 #include <Xinput.h>
 #include "GamePad.h"
+#include <ctime>
+#include <time.h>
 //https://www.youtube.com/watch?v=p91FvlnyOyo&list=PLKK11Ligqitij8r6hd6tfqqesh3T_xWJA
 
 using namespace std;
 
 SOC_Graphics* graphics;
 Gamepad gamepad; // Gamepad instance
-
+clock_t oldTime;
 
 /*
  * VK_0 - VK_9 are the same as ASCII '0' - '9' (0x30 - 0x39)
@@ -299,6 +301,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE prevInstance, LPWSTR cmd, int
 
 	MSG message;
 	message.message = WM_NULL;
+
+	oldTime = clock();
+
 	while (message.message != WM_QUIT)
 	{
 		if (PeekMessage(&message, NULL, 0, 0, PM_REMOVE))
@@ -311,9 +316,18 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE prevInstance, LPWSTR cmd, int
 
 			TestInput();
 
-			SOC_GameController::Update(TestInput());
+			clock_t tend = clock();
+
+			float deltaTime = (tend - oldTime) / (double)CLOCKS_PER_SEC;
+
+			oldTime = clock();
+
+			GetTickCount();
+
+			SOC_GameController::Update(deltaTime, TestInput());
 			// render
 			SOC_GameController::Render();
+
 
 
 			/*

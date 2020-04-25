@@ -12,11 +12,13 @@ public:
 	void Load(HWND newWinHandle, SOC_Vector2 windowPos) override;
 	void Unload() override;
 	void Render() override;
-	void Update(GameInput direction) override;
+	void Update(float deltaTime, GameInput direction) override;
 
 private:
 	
 	int frame;
+
+	float enemyMoveTimer = 1;
 
 	SOC_GameObject* testObject;
 
