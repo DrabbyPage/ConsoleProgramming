@@ -305,7 +305,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE prevInstance, LPWSTR cmd, int
 
 			clock_t tend = clock();
 
-			float deltaTime = (tend - oldTime) / (double)CLOCKS_PER_SEC;
+			float deltaTime = (float)((tend - oldTime) / (double)CLOCKS_PER_SEC);
 
 			oldTime = clock();
 

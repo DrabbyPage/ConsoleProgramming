@@ -3,7 +3,7 @@
 #include "SOC_Graphics.h"
 #include "SOC_Level1.h"
 #include <ctime> 
-
+#include <sstream>
 
 void SOC_Level1::Load(HWND newWindowHandle, SOC_Vector2 newWindowPos)
 {
@@ -110,17 +110,29 @@ void SOC_Level1::Render()
 
 	graphics->ClearScreen(0.0, 0.0, 0.0);
 
+	std::stringstream ss; 
+	ss << "Score:" << score;
+	std::string scoreString;
+	ss >> scoreString;
+	
+	graphics->RenderString(scoreString, SOC_Vector2(1,1));
+
+	std::stringstream ss2;
+	ss2 << "Lives:" << lives;
+	std::string liveString;
+	ss2 >> liveString;
+	graphics->RenderString(liveString, SOC_Vector2(1, 30));
 	
 	player->Render();
 
 	if (shotRanderTimer >= 0)
 	{
-		graphics->DrawRectangle(playerShotRect.left, playerShotRect.top, playerShotRect.right, playerShotRect.bottom, 1, 1, 0, 1);
+		graphics->DrawRectangle((float)playerShotRect.left, (float)playerShotRect.top, (float)playerShotRect.right, (float)playerShotRect.bottom, 1, 1, 0, 1);
 	}
 
 	enemy->Render();
 
-	for (int i = 0; i < bullets.size(); i++)
+	for (unsigned int i = 0; i < bullets.size(); i++)
 	{
 		if (bullets[i] != nullptr)
 			bullets[i]->Render();
@@ -151,167 +163,6 @@ void SOC_Level1::Update(float deltaTime, GameInput direction)
 	leftSpot.xVal *= 0.15f;
 	leftSpot.yVal *= 0.5f;
 
-
-	player->ChangeToSprite((int)direction);
-	player->SetObjectPos(graphics->GetWindowSize() / 2);
-
-	float closestPos = 1000000000;
-
-	switch (direction)
-	{
-	case GameInput::up:
-	{
-		shotRanderTimer = origShotTimer;
-
-		playerShotRect.left = player->GetObjectPosition().xVal - 4;
-		playerShotRect.right = player->GetObjectPosition().xVal + 4;
-		playerShotRect.top = 0;
-		playerShotRect.bottom = player->GetObjectPosition().yVal - 32;
-
-		for (int i = 0; i < bullets.size(); i++)
-		{
-			SOC_Vector2 distToBullet = bullets[i]->GetObjectPosition() - player->GetObjectPosition();
-
-			if (bullets[i]->GetObjectPosition().yVal < player->GetObjectPosition().yVal - 15 &&
-				distToBullet.magnitude() < closestPos)
-			{
-				closestPos = distToBullet.magnitude();
-				playerShotRect.left = player->GetObjectPosition().xVal - 4;
-				playerShotRect.right = player->GetObjectPosition().xVal + 4;
-				playerShotRect.top = bullets[i]->GetObjectPosition().yVal;
-				playerShotRect.bottom = player->GetObjectPosition().yVal - 32;
-			}
-		}
-		
-		SOC_Vector2 distToEnemy = enemy->GetObjectPosition() - player->GetObjectPosition();
-
-		if (enemy->GetObjectPosition().yVal < player->GetObjectPosition().yVal - 15 &&
-			distToEnemy.magnitude() < closestPos)
-		{
-			closestPos = distToEnemy.magnitude();
-			playerShotRect.left = player->GetObjectPosition().xVal - 4;
-			playerShotRect.right = player->GetObjectPosition().xVal + 4;
-			playerShotRect.top = enemy->GetObjectPosition().yVal;
-			playerShotRect.bottom = player->GetObjectPosition().yVal - 32;
-		}
-
-		break;
-	}
-	case GameInput::down:
-	{
-		shotRanderTimer = origShotTimer;
-		playerShotRect.left = player->GetObjectPosition().xVal - 4;
-		playerShotRect.right = player->GetObjectPosition().xVal + 4;
-		playerShotRect.top = player->GetObjectPosition().yVal + 32;
-		playerShotRect.bottom = graphics->GetWindowSize().yVal;
-
-		for (int i = 0; i < bullets.size(); i++)
-		{
-			SOC_Vector2 distToBullet = bullets[i]->GetObjectPosition() - player->GetObjectPosition();
-
-			if (bullets[i]->GetObjectPosition().yVal > player->GetObjectPosition().yVal + 15 &&
-				distToBullet.magnitude() < closestPos)
-			{
-				closestPos = distToBullet.magnitude();
-				playerShotRect.left = player->GetObjectPosition().xVal - 4;
-				playerShotRect.right = player->GetObjectPosition().xVal + 4;
-				playerShotRect.top = player->GetObjectPosition().yVal + 32;
-				playerShotRect.bottom = bullets[i]->GetObjectPosition().yVal;
-			}
-		}
-
-		SOC_Vector2 distToEnemy = enemy->GetObjectPosition() - player->GetObjectPosition();
-
-		if (enemy->GetObjectPosition().yVal > player->GetObjectPosition().yVal + 15 &&
-			distToEnemy.magnitude() < closestPos)
-		{
-			closestPos = distToEnemy.magnitude();
-			playerShotRect.left = player->GetObjectPosition().xVal - 4;
-			playerShotRect.right = player->GetObjectPosition().xVal + 4;
-			playerShotRect.top = player->GetObjectPosition().yVal + 32;
-			playerShotRect.bottom = enemy->GetObjectPosition().yVal - 32;
-		}
-
-		break;
-	}
-	case GameInput::left:
-	{
-		shotRanderTimer = origShotTimer;
-		playerShotRect.left = 0;
-		playerShotRect.right = player->GetObjectPosition().xVal - 32;
-		playerShotRect.top = player->GetObjectPosition().yVal - 4;
-		playerShotRect.bottom = player->GetObjectPosition().yVal + 4;
-
-		for (int i = 0; i < bullets.size(); i++)
-		{
-			SOC_Vector2 distToBullet = bullets[i]->GetObjectPosition() - player->GetObjectPosition();
-
-			if (bullets[i]->GetObjectPosition().xVal < player->GetObjectPosition().xVal - 15 &&
-				distToBullet.magnitude() < closestPos)
-			{
-				closestPos = distToBullet.magnitude();
-				playerShotRect.left = player->GetObjectPosition().xVal - 32;
-				playerShotRect.right = bullets[i]->GetObjectPosition().xVal;
-				playerShotRect.top = player->GetObjectPosition().yVal + 4;
-				playerShotRect.bottom = player->GetObjectPosition().yVal - 4;
-			}
-		}
-
-		SOC_Vector2 distToEnemy = enemy->GetObjectPosition() - player->GetObjectPosition();
-
-		if (enemy->GetObjectPosition().xVal < player->GetObjectPosition().xVal - 15 &&
-			distToEnemy.magnitude() < closestPos)
-		{
-			closestPos = distToEnemy.magnitude();
-			playerShotRect.left = player->GetObjectPosition().xVal - 32;
-			playerShotRect.right = enemy->GetObjectPosition().xVal + 32;
-			playerShotRect.top = player->GetObjectPosition().yVal + 4;
-			playerShotRect.bottom = player->GetObjectPosition().yVal - 4;
-		}
-
-		break;
-
-	}
-	case GameInput::right:
-	{
-		shotRanderTimer = origShotTimer;
-		playerShotRect.left = player->GetObjectPosition().xVal + 32;
-		playerShotRect.right = graphics->GetWindowSize().xVal;
-		playerShotRect.top = player->GetObjectPosition().yVal - 4;
-		playerShotRect.bottom = player->GetObjectPosition().yVal + 4;
-
-		for (int i = 0; i < bullets.size(); i++)
-		{
-			SOC_Vector2 distToBullet = bullets[i]->GetObjectPosition() - player->GetObjectPosition();
-
-			if (bullets[i]->GetObjectPosition().xVal > player->GetObjectPosition().xVal + 15 &&
-				distToBullet.magnitude() < closestPos)
-			{
-				closestPos = distToBullet.magnitude();
-
-				playerShotRect.left = player->GetObjectPosition().xVal + 32;
-				playerShotRect.right = bullets[i]->GetObjectPosition().xVal;
-				playerShotRect.top = player->GetObjectPosition().yVal + 4;
-				playerShotRect.bottom = player->GetObjectPosition().yVal - 4;
-			}
-		}
-
-		SOC_Vector2 distToEnemy = enemy->GetObjectPosition() - player->GetObjectPosition();
-
-		if (enemy->GetObjectPosition().xVal > player->GetObjectPosition().xVal + 15 &&
-			distToEnemy.magnitude() < closestPos)
-		{
-			closestPos = distToEnemy.magnitude();
-
-			playerShotRect.left = player->GetObjectPosition().xVal + 32;
-			playerShotRect.right = enemy->GetObjectPosition().xVal - 32;
-			playerShotRect.top = player->GetObjectPosition().yVal + 4;
-			playerShotRect.bottom = player->GetObjectPosition().yVal - 4;
-		}
-
-		break;
-	}
-	}
 
 	int shoot = rand() % 3;
 
@@ -363,7 +214,7 @@ void SOC_Level1::Update(float deltaTime, GameInput direction)
 		enemyMoveTimer -= deltaTime;
 	}
 
-	for (int i = 0; i < bullets.size(); i++)
+	for (unsigned int i = 0; i < bullets.size(); i++)
 	{
 		bullets[i]->Update(deltaTime);
 
@@ -372,7 +223,206 @@ void SOC_Level1::Update(float deltaTime, GameInput direction)
 		if (diff.magnitude() <= 32)
 		{
 			bullets.erase(bullets.begin() + i);
+			lives--;
 		}
 	}
+
+	player->ChangeToSprite((int)direction);
+	player->SetObjectPos(graphics->GetWindowSize() / 2);
+
+	float closestPos = 1000000000;
+
+	int bulletPosInArray = -1;
+
+	switch (direction)
+	{
+	case GameInput::up:
+	{
+		shotRanderTimer = origShotTimer;
+
+		playerShotRect.left = (LONG)(player->GetObjectPosition().xVal - 4);
+		playerShotRect.right = (LONG)(player->GetObjectPosition().xVal + 4);
+		playerShotRect.top = (LONG)0;
+		playerShotRect.bottom = (LONG)(player->GetObjectPosition().yVal - 32);
+
+		for (unsigned int i = 0; i < bullets.size(); i++)
+		{
+			SOC_Vector2 distToBullet = bullets[i]->GetObjectPosition() - player->GetObjectPosition();
+
+			if (bullets[i]->GetObjectPosition().yVal < player->GetObjectPosition().yVal - 15 &&
+				distToBullet.magnitude() < closestPos)
+			{
+				closestPos = distToBullet.magnitude();
+				playerShotRect.left = (LONG)(player->GetObjectPosition().xVal - 4);
+				playerShotRect.right = (LONG)(player->GetObjectPosition().xVal + 4);
+				playerShotRect.top = (LONG)(bullets[i]->GetObjectPosition().yVal);
+				playerShotRect.bottom = (LONG)(player->GetObjectPosition().yVal - 32);
+
+				bulletPosInArray = i;
+			}
+		}
+		
+		SOC_Vector2 distToEnemy = enemy->GetObjectPosition() - player->GetObjectPosition();
+
+		if (enemy->GetObjectPosition().yVal < player->GetObjectPosition().yVal - 15 &&
+			distToEnemy.magnitude() < closestPos && enemy->GetIsActiveInScene())
+		{
+			closestPos = distToEnemy.magnitude();
+			playerShotRect.left = (LONG)(player->GetObjectPosition().xVal - 4);
+			playerShotRect.right = (LONG)(player->GetObjectPosition().xVal + 4);
+			playerShotRect.top = (LONG)(enemy->GetObjectPosition().yVal);
+			playerShotRect.bottom = (LONG)(player->GetObjectPosition().yVal - 32);
+
+			bulletPosInArray = -1;
+			hitEnemy = true;
+		}
+
+		break;
+	}
+	case GameInput::down:
+	{
+		shotRanderTimer = origShotTimer;
+		playerShotRect.left = (LONG)(player->GetObjectPosition().xVal - 4);
+		playerShotRect.right = (LONG)(player->GetObjectPosition().xVal + 4);
+		playerShotRect.top = (LONG)(player->GetObjectPosition().yVal + 32);
+		playerShotRect.bottom = (LONG)(graphics->GetWindowSize().yVal);
+
+		for (unsigned int i = 0; i < bullets.size(); i++)
+		{
+			SOC_Vector2 distToBullet = bullets[i]->GetObjectPosition() - player->GetObjectPosition();
+
+			if (bullets[i]->GetObjectPosition().yVal > player->GetObjectPosition().yVal + 15 &&
+				distToBullet.magnitude() < closestPos)
+			{
+				closestPos = distToBullet.magnitude();
+				playerShotRect.left = (LONG)(player->GetObjectPosition().xVal - 4);
+				playerShotRect.right = (LONG)(player->GetObjectPosition().xVal + 4);
+				playerShotRect.top = (LONG)(player->GetObjectPosition().yVal + 32);
+				playerShotRect.bottom = (LONG)(bullets[i]->GetObjectPosition().yVal);
+
+				bulletPosInArray = i;
+			}
+		}
+
+		SOC_Vector2 distToEnemy = enemy->GetObjectPosition() - player->GetObjectPosition();
+
+		if (enemy->GetObjectPosition().yVal > player->GetObjectPosition().yVal + 15 &&
+			distToEnemy.magnitude() < closestPos && enemy->GetIsActiveInScene())
+		{
+			closestPos = distToEnemy.magnitude();
+			playerShotRect.left = (LONG)(player->GetObjectPosition().xVal - 4);
+			playerShotRect.right = (LONG)(player->GetObjectPosition().xVal + 4);
+			playerShotRect.top = (LONG)(player->GetObjectPosition().yVal + 32);
+			playerShotRect.bottom = (LONG)(enemy->GetObjectPosition().yVal - 32);
+
+			bulletPosInArray = -1;
+			hitEnemy = true;
+		}
+
+		break;
+	}
+	case GameInput::left:
+	{
+		shotRanderTimer = origShotTimer;
+		playerShotRect.left = (LONG)0;
+		playerShotRect.right = (LONG)(player->GetObjectPosition().xVal - 32);
+		playerShotRect.top = (LONG)(player->GetObjectPosition().yVal - 4);
+		playerShotRect.bottom = (LONG)(player->GetObjectPosition().yVal + 4);
+
+		for (unsigned int i = 0; i < bullets.size(); i++)
+		{
+			SOC_Vector2 distToBullet = bullets[i]->GetObjectPosition() - player->GetObjectPosition();
+
+			if (bullets[i]->GetObjectPosition().xVal < player->GetObjectPosition().xVal - 15 &&
+				distToBullet.magnitude() < closestPos)
+			{
+				closestPos = distToBullet.magnitude();
+				playerShotRect.left = (LONG)(player->GetObjectPosition().xVal - 32);
+				playerShotRect.right = (LONG)(bullets[i]->GetObjectPosition().xVal);
+				playerShotRect.top = (LONG)(player->GetObjectPosition().yVal + 4);
+				playerShotRect.bottom = (LONG)(player->GetObjectPosition().yVal - 4);
+
+				bulletPosInArray = i;
+
+			}
+		}
+
+		SOC_Vector2 distToEnemy = enemy->GetObjectPosition() - player->GetObjectPosition();
+
+		if (enemy->GetObjectPosition().xVal < player->GetObjectPosition().xVal - 15 &&
+			distToEnemy.magnitude() < closestPos && enemy->GetIsActiveInScene())
+		{
+			closestPos = distToEnemy.magnitude();
+			playerShotRect.left = (LONG)(player->GetObjectPosition().xVal - 32);
+			playerShotRect.right = (LONG)(enemy->GetObjectPosition().xVal + 32);
+			playerShotRect.top = (LONG)(player->GetObjectPosition().yVal + 4);
+			playerShotRect.bottom = (LONG)(player->GetObjectPosition().yVal - 4);
+
+
+			bulletPosInArray = -1;
+			hitEnemy = true;
+		}
+
+		break;
+
+	}
+	case GameInput::right:
+	{
+		shotRanderTimer = origShotTimer;
+		playerShotRect.left = (LONG)(player->GetObjectPosition().xVal + 32);
+		playerShotRect.right = (LONG)(graphics->GetWindowSize().xVal);
+		playerShotRect.top = (LONG)(player->GetObjectPosition().yVal - 4);
+		playerShotRect.bottom = (LONG)(player->GetObjectPosition().yVal + 4);
+
+		for (unsigned int i = 0; i < bullets.size(); i++)
+		{
+			SOC_Vector2 distToBullet = bullets[i]->GetObjectPosition() - player->GetObjectPosition();
+
+			if (bullets[i]->GetObjectPosition().xVal > player->GetObjectPosition().xVal + 15 &&
+				distToBullet.magnitude() < closestPos)
+			{
+				closestPos = distToBullet.magnitude();
+
+				playerShotRect.left = (LONG)(player->GetObjectPosition().xVal + 32);
+				playerShotRect.right = (LONG)(bullets[i]->GetObjectPosition().xVal);
+				playerShotRect.top = (LONG)(player->GetObjectPosition().yVal + 4);
+				playerShotRect.bottom = (LONG)(player->GetObjectPosition().yVal - 4);
+
+				bulletPosInArray = i;
+			}
+		}
+
+		SOC_Vector2 distToEnemy = enemy->GetObjectPosition() - player->GetObjectPosition();
+
+		if (enemy->GetObjectPosition().xVal > player->GetObjectPosition().xVal + 15 &&
+			distToEnemy.magnitude() < closestPos && enemy->GetIsActiveInScene())
+		{
+			closestPos = distToEnemy.magnitude();
+
+			playerShotRect.left = (LONG)(player->GetObjectPosition().xVal + 32);
+			playerShotRect.right = (LONG)(enemy->GetObjectPosition().xVal - 32);
+			playerShotRect.top = (LONG)(player->GetObjectPosition().yVal + 4);
+			playerShotRect.bottom = (LONG)(player->GetObjectPosition().yVal - 4);
+
+			bulletPosInArray = -1;
+			hitEnemy = true;
+		}
+
+		break;
+	}
+	}
+
+	if (bulletPosInArray != -1)
+	{
+		bullets.erase(bullets.begin() + bulletPosInArray);
+		score += 100;
+	}
+	else if (hitEnemy)
+	{
+		score += 1000;
+		hitEnemy = false;
+		enemy->SetIsActiveInScene(false);
+	}
+
 
 }

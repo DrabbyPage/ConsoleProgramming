@@ -22,6 +22,7 @@ private:
 
 	int frame;
 	bool shot = false;
+	bool hitEnemy = false;
 
 	float totalLevelTime = 0;
 	float enemyMoveTimer = 1;
@@ -37,4 +38,7 @@ private:
 	SOC_Vector2 windowPos;
 	std::vector<SOC_GameObject*> bullets;
 	//SOC_SpriteSheet* spritesheet;
+
+	int score = 0;
+	int lives = 3;
 };

@@ -5,6 +5,8 @@
 
 #include <d2d1.h>
 #include "SOC_Vector.h"
+#include <string>
+#include <dwrite.h>
 
 class SOC_Graphics
 {
@@ -30,8 +32,16 @@ public:
 
 	void SetWindowPos(SOC_Vector2 newWinPos) { windowPos = newWinPos; }
 	SOC_Vector2 GetWindowSize() { return windowSize; }
+
+	HRESULT CreateDeviceResources();
+	void RenderString(std::string newString, SOC_Vector2 newPos);
 private:
 	ID2D1Factory* factory;
+
+	ID2D1Factory* m_pD2DFactory;
+	IDWriteFactory* m_pDWriteFactory;
+	IDWriteTextFormat* m_pTextFormat;
+
 	ID2D1HwndRenderTarget* renderTarget;
 	ID2D1SolidColorBrush* brush;
 
