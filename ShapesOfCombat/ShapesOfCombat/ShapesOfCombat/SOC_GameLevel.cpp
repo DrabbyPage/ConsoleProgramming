@@ -1,4 +1,12 @@
 
 #include "SOC_GameLevel.h"
 
-SOC_Graphics* SOC_GameLevel::graphics;
+bool SOC_GameLevel::GetGameOver()
+{ 
+	return gameIsOver;
+}
+
+void SOC_GameLevel::SetGameIsOver(bool newBool)
+{ 
+	gameIsOver = newBool; 
+}

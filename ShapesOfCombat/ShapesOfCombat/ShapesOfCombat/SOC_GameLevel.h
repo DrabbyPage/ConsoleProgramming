@@ -14,16 +14,21 @@ public:
 	virtual void Render() = 0;
 	virtual void Update(float deltaTime, GameInput direction) = 0;
 
-	static void Init(SOC_Graphics* newGraphics)
+	void Init(SOC_Graphics* newGraphics)
 	{
 		graphics = newGraphics;
 	}
 
+	bool GetGameOver();
+	void SetGameIsOver(bool newBool);
+
+	bool gameIsOver;
+
 protected:
-	static SOC_Graphics* graphics;
+	SOC_Graphics* graphics;
 
 private:
-	 
+
 };
 
 #endif

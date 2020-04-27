@@ -9,12 +9,15 @@
 class SOC_Level1 : public SOC_GameLevel
 {
 public:
+	SOC_Level1(SOC_Graphics* newGraphics, HWND newWindowHandle, SOC_Vector2 newWindowPos);
 	void Load(HWND newWinHandle, SOC_Vector2 windowPos) override;
 	void Unload() override;
 	void Render() override;
 	void Update(float deltaTime, GameInput direction) override;
 
 	void CreateBullet(GameInput direction, float time);
+
+	void SetHealth() { lives = 3; }
 
 private:
 	

@@ -27,6 +27,12 @@ void SOC_GameController::SwitchLevel(SOC_GameLevel* level, HWND newWinHandle, SO
 	loadingLevel = false;
 }
 
+void SOC_GameController::UnloadLevel()
+{
+	currentLevel->Unload();
+	currentLevel = nullptr;
+}
+
 void SOC_GameController::Render()
 {
 	currentLevel->Render();

@@ -33,7 +33,6 @@ public:
 	void SetWindowPos(SOC_Vector2 newWinPos) { windowPos = newWinPos; }
 	SOC_Vector2 GetWindowSize() { return windowSize; }
 
-	HRESULT CreateDeviceResources();
 	void RenderString(std::string newString, SOC_Vector2 newPos);
 private:
 	ID2D1Factory* factory;

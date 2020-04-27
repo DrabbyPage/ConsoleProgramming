@@ -45,6 +45,7 @@ SOC_GameObject::~SOC_GameObject()
 	{
 		delete objectPhysics;
 	}
+	listOfSprites.clear();
 }
 
 void SOC_GameObject::Update(float deltaTime)

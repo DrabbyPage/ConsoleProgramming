@@ -62,9 +62,64 @@ bool SOC_Graphics::Init(HWND windowHandle)
 		return false;
 	}
 
-	HRESULT hr;
 
-	hr = CreateDeviceResources();
+	static const WCHAR msc_fontName[] = L"Verdana";
+	static const FLOAT msc_fontSize = 20;
+
+	// Create a Direct2D factory.
+	res = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &m_pD2DFactory);
+
+	if (res == S_OK)
+	{
+
+		// Create a DirectWrite factory.
+		res = DWriteCreateFactory(
+			DWRITE_FACTORY_TYPE_SHARED,
+			__uuidof(m_pDWriteFactory),
+			reinterpret_cast<IUnknown**>(&m_pDWriteFactory)
+		);
+	}
+	else
+	{
+		return false;
+	}
+	if (res == S_OK)
+	{
+		// Create a DirectWrite text format object.
+		res = m_pDWriteFactory->CreateTextFormat(
+			msc_fontName,
+			NULL,
+			DWRITE_FONT_WEIGHT_NORMAL,
+			DWRITE_FONT_STYLE_NORMAL,
+			DWRITE_FONT_STRETCH_NORMAL,
+			msc_fontSize,
+			L"", //locale
+			&m_pTextFormat
+		);
+	}
+	else
+	{
+		return false;
+	}
+	if (res == S_OK)
+	{
+		// Center the text horizontally and vertically.
+		//m_pTextFormat->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER);
+		m_pTextFormat->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_LEADING);
+
+		//m_pTextFormat->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
+		m_pTextFormat->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_NEAR);
+
+	}
+	else
+	{
+		return false;
+	}
+
+	if (res != S_OK)
+	{
+		return false;
+	}
 
 	return true;
 }
@@ -100,65 +155,6 @@ SOC_Vector2 SOC_Graphics::GetCursorPosFromGraphics()
 	return cursorPos;
 }
 
-HRESULT SOC_Graphics::CreateDeviceResources()
-{
-	static const WCHAR msc_fontName[] = L"Verdana";
-	static const FLOAT msc_fontSize = 20;
-	HRESULT hr;
-
-	// Create a Direct2D factory.
-	hr = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &m_pD2DFactory);
-
-	if (SUCCEEDED(hr))
-	{
-
-		// Create a DirectWrite factory.
-		hr = DWriteCreateFactory(
-			DWRITE_FACTORY_TYPE_SHARED,
-			__uuidof(m_pDWriteFactory),
-			reinterpret_cast<IUnknown**>(&m_pDWriteFactory)
-		);
-	}
-	else
-	{
-		return false;
-	}
-	if (SUCCEEDED(hr))
-	{
-		// Create a DirectWrite text format object.
-		hr = m_pDWriteFactory->CreateTextFormat(
-			msc_fontName,
-			NULL,
-			DWRITE_FONT_WEIGHT_NORMAL,
-			DWRITE_FONT_STYLE_NORMAL,
-			DWRITE_FONT_STRETCH_NORMAL,
-			msc_fontSize,
-			L"", //locale
-			&m_pTextFormat
-		);
-	}
-	else
-	{
-		return false;
-	}
-	if (SUCCEEDED(hr))
-	{
-		// Center the text horizontally and vertically.
-		//m_pTextFormat->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER);
-		m_pTextFormat->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_LEADING);
-
-		//m_pTextFormat->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
-		m_pTextFormat->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_NEAR);
-
-	}
-	else
-	{
-		return false;
-	}
-
-	return true;
-}
-
 void SOC_Graphics::RenderString(std::string newString, SOC_Vector2 pos)
 {
 	WCHAR *textMsg;
@@ -173,7 +169,7 @@ void SOC_Graphics::RenderString(std::string newString, SOC_Vector2 pos)
 	// Retrieve the size of the render target.
 	D2D1_SIZE_F renderTargetSize = renderTarget->GetSize();
 
-	renderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
+	//renderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
 
 	renderTarget->DrawText(
 		textMsg,
@@ -183,5 +179,6 @@ void SOC_Graphics::RenderString(std::string newString, SOC_Vector2 pos)
 		brush
 	);
 
+	
 }
 

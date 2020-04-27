@@ -19,6 +19,7 @@ Gamepad gamepad; // Gamepad instance
 clock_t oldTime;
 
 GameInput playerInput = GameInput::null;
+bool gameOver = true;
 
 /*
  * VK_0 - VK_9 are the same as ASCII '0' - '9' (0x30 - 0x39)
@@ -78,6 +79,8 @@ GameInput TestInput()
 	{
 		cout << " Button [A] pressed" << endl;
 		//PostQuitMessage(0);
+		if(gameOver)
+		gameOver = false;
 		return GameInput::down;
 	}
 
@@ -233,6 +236,10 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case VK_MENU:
 		break;
+	case VK_SPACE:
+		if(gameOver)
+		gameOver = false;
+		break;
 	}
 	return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
@@ -282,47 +289,75 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE prevInstance, LPWSTR cmd, int
 		return -1;
 	}
 
-	SOC_GameLevel::Init(graphics);
-
 	ShowWindow(windowHandle, nCmdShow);
 
-	SOC_GameController::LoadInitialLevel(new SOC_Level1(), windowHandle, windowPos);
+	SOC_Level1* level1 = new SOC_Level1(graphics, windowHandle, windowPos);
 
 	MSG message;
 	message.message = WM_NULL;
 
 	oldTime = clock();
 
+	gameOver = true;
+
 	while (message.message != WM_QUIT)
-	{
+	{			
+		GameInput userInput = GameInput::null;
+
+		gamepad.Update(); // Update gamepad
+
+		if (gamepad.Connected())
+		{
+			userInput = TestInput();
+		}
+
 		if (PeekMessage(&message, NULL, 0, 0, PM_REMOVE))
 		{
 			DispatchMessage(&message);
 		}
 		else
 		{
-			gamepad.Update(); // Update gamepad
-
 			clock_t tend = clock();
 
 			float deltaTime = (float)((tend - oldTime) / (double)CLOCKS_PER_SEC);
 
 			oldTime = clock();
 
-			if (TestInput() == GameInput::null || gamepad.Connected()==false)
+
+			if (userInput == GameInput::null || gamepad.Connected()==false)
 			{
-				SOC_GameController::Update(deltaTime, playerInput);
+				level1->Update(deltaTime, playerInput);
+
+				if ((playerInput == GameInput::down) && gameOver)
+				{
+					gameOver = false;
+					level1->SetGameIsOver(gameOver);
+					level1->SetHealth();
+				}
 			}
 			else
 			{
 				SOC_GameController::Update(deltaTime, TestInput());
+				level1->Update(deltaTime, userInput);
+
+
+				if (userInput == GameInput::down && gameOver)
+				{
+					gameOver = false;
+					level1->SetGameIsOver(gameOver);
+					level1->SetHealth();
+				}
 			}
 			// render
-			SOC_GameController::Render();
+			level1->Render();
+
+			gameOver = level1->GetGameOver();
 
 			playerInput = GameInput::null;
 		}
 	}
+
+	level1->Unload();
 
 	/*
 	MSG message;a6
@@ -333,6 +368,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE prevInstance, LPWSTR cmd, int
 	*/
 	// done with the window stuff
 
+	delete level1;
 	delete graphics;
 	return 0;
 }
