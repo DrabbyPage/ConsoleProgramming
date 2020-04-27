@@ -19,6 +19,8 @@ SOC_Level1::SOC_Level1(SOC_Graphics* newGraphics, HWND newWindowHandle, SOC_Vect
 	enemy->AddSprite(L"SpaceZapEnemyDown.png", newWindowHandle, newWindowPos, 64, 64, 1);
 	enemy->AddSprite(L"SpaceZapEnemyLeft.png", newWindowHandle, newWindowPos, 64, 64, 1);
 
+	startSprite = new SOC_GameObject(L"StartSprite.png", newWindowHandle, newWindowPos, 600, 800, 1);
+
 	windoeHandler = newWindowHandle;
 	windowPos = newWindowPos;
 	frame = 0;
@@ -37,6 +39,8 @@ void SOC_Level1::Load(HWND newWindowHandle, SOC_Vector2 newWindowPos)
 	enemy->AddSprite(L"SpaceZapEnemyRight.png", newWindowHandle, newWindowPos, 64, 64, 1);
 	enemy->AddSprite(L"SpaceZapEnemyDown.png", newWindowHandle, newWindowPos, 64, 64, 1);
 	enemy->AddSprite(L"SpaceZapEnemyLeft.png", newWindowHandle, newWindowPos, 64, 64, 1);
+
+	startSprite = new SOC_GameObject(L"StartSprite.png", newWindowHandle, newWindowPos, 64, 64, 1);
 
 	windoeHandler = newWindowHandle;
 	windowPos = newWindowPos;
@@ -173,8 +177,12 @@ void SOC_Level1::Render()
 
 		std::string plsPlay;
 		plsPlay = "Press GamePad A or Keyboard S to Play";
-		graphics->RenderString(plsPlay, SOC_Vector2(1, 30));
+		//graphics->RenderString(plsPlay, SOC_Vector2(1, 30));
 
+		startSprite->SetIsActiveInScene(true);
+		startSprite->SetObjectPos(graphics->GetWindowSize()/2);
+		startSprite->Render();
+		
 		graphics->EndDraw();
 
 	}

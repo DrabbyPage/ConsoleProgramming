@@ -20,6 +20,9 @@ clock_t oldTime;
 
 GameInput playerInput = GameInput::null;
 bool gameOver = true;
+bool canShoot = true;
+float canShootTimer = 0.3f;
+float mxShootTime = 0.3f;
 
 /*
  * VK_0 - VK_9 are the same as ASCII '0' - '9' (0x30 - 0x39)
@@ -326,7 +329,28 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE prevInstance, LPWSTR cmd, int
 
 			if (userInput == GameInput::null || gamepad.Connected()==false)
 			{
+				if (!canShoot)
+					canShootTimer -= deltaTime;
+
+				if (canShootTimer <= 0)
+				{
+					canShootTimer = mxShootTime;
+					canShoot = true;
+				}
+
+				if (!canShoot)
+				{
+					playerInput = GameInput::null;
+					userInput = GameInput::null;
+				}
+
 				level1->Update(deltaTime, playerInput);
+
+
+				if (playerInput != GameInput::null)
+				{
+					canShoot = false;
+				}
 
 				if ((playerInput == GameInput::down) && gameOver)
 				{
@@ -337,9 +361,27 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE prevInstance, LPWSTR cmd, int
 			}
 			else
 			{
-				SOC_GameController::Update(deltaTime, TestInput());
+				if (!canShoot)
+					canShootTimer -= deltaTime;
+
+				if (canShootTimer <= 0)
+				{
+					canShootTimer = mxShootTime;
+					canShoot = true;
+				}
+
+				if (!canShoot)
+				{
+					playerInput = GameInput::null;
+					userInput = GameInput::null;
+				}
+
 				level1->Update(deltaTime, userInput);
 
+				if (userInput != GameInput::null)
+				{
+					canShoot = false;
+				}
 
 				if (userInput == GameInput::down && gameOver)
 				{

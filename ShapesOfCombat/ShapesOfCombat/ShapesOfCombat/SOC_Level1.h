@@ -36,6 +36,7 @@ private:
 
 	SOC_GameObject* player;
 	SOC_GameObject* enemy;
+	SOC_GameObject* startSprite;
 
 	HWND windoeHandler;
 	SOC_Vector2 windowPos;

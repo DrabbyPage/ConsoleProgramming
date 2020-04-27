@@ -175,6 +175,7 @@
     <Image Include="SpaceZapEnemyLeft.png" />
     <Image Include="SpaceZapEnemyRight.png" />
     <Image Include="SpaceZapEnemyUp.png" />
+    <Image Include="StartSprite.png" />
     <Image Include="test.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

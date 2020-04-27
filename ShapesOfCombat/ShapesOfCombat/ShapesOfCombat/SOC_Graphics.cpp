@@ -168,14 +168,17 @@ void SOC_Graphics::RenderString(std::string newString, SOC_Vector2 pos)
 
 	// Retrieve the size of the render target.
 	D2D1_SIZE_F renderTargetSize = renderTarget->GetSize();
+	renderTargetSize.width = windowSize.xVal;
+	renderTargetSize.height = windowSize.yVal;
 
 	//renderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
+	D2D1::RectF(pos.xVal, renderTargetSize.height, renderTargetSize.width, pos.yVal);
 
 	renderTarget->DrawText(
 		textMsg,
 		newString.size(),
 		m_pTextFormat,
-		D2D1::RectF(pos.xVal, pos.yVal, renderTargetSize.width, renderTargetSize.height),
+		D2D1::RectF(pos.xVal, renderTargetSize.height, renderTargetSize.width, pos.yVal),
 		brush
 	);
 
