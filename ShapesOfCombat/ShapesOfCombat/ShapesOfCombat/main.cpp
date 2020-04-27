@@ -18,6 +18,8 @@ SOC_Graphics* graphics;
 Gamepad gamepad; // Gamepad instance
 clock_t oldTime;
 
+GameInput playerInput = GameInput::null;
+
 /*
  * VK_0 - VK_9 are the same as ASCII '0' - '9' (0x30 - 0x39)
  * 0x3A - 0x40 : unassigned
@@ -71,7 +73,7 @@ enum KeyboardKey
 GameInput TestInput()
 {
 	// GetButtonDown only returns true on the frame it was first pressed.
-	if (gamepad.GetButtonDown(xButtons.A) || GetKeyState(VK_S) ||
+	if (gamepad.GetButtonDown(xButtons.A) ||
 		gamepad.GetButtonDown(xButtons.DPad_Down) )
 	{
 		cout << " Button [A] pressed" << endl;
@@ -79,7 +81,7 @@ GameInput TestInput()
 		return GameInput::down;
 	}
 
-	if (gamepad.GetButtonDown(xButtons.X) || GetKeyState(VK_A) ||
+	if (gamepad.GetButtonDown(xButtons.X) ||
 		gamepad.GetButtonDown(xButtons.DPad_Left) )
 	{
 		cout << " Button [X] pressed" << endl;
@@ -88,7 +90,7 @@ GameInput TestInput()
 	}
 
 	// GetButtonPressed will keep returning true until the button is released.
-	if (gamepad.GetButtonPressed(xButtons.Y) || GetKeyState(VK_W) ||
+	if (gamepad.GetButtonPressed(xButtons.Y)  ||
 		gamepad.GetButtonDown(xButtons.DPad_Up) )
 	{
 		cout << " Button [Y] held, see how this doesn't appear just once?" << endl;
@@ -96,15 +98,13 @@ GameInput TestInput()
 		return GameInput::up;
 	}
 
-	if (gamepad.GetButtonDown(xButtons.B) || GetKeyState(VK_D) || 
+	if (gamepad.GetButtonDown(xButtons.B) || 
 		gamepad.GetButtonDown(xButtons.DPad_Right) )
 	{
 		cout << " Button [B] pressed" << endl;
 		//PostQuitMessage(0);
 		return GameInput::right;
 	}
-
-	return GameInput::null;
 
 	// Check the D-Pad buttons
 	if (gamepad.GetButtonDown(xButtons.DPad_Up))
@@ -159,16 +159,14 @@ GameInput TestInput()
 	{
 		cout << " Button [R STICK] pressed" << endl;
 	}
+
+	return GameInput::null;
 }
 
 
 // LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	if (gamepad.GetButtonDown(xButtons.A))
-	{
-		//PostQuitMessage(0);
-	}
 	switch (uMsg)
 	{
 	case WM_DESTROY:
@@ -209,33 +207,24 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		// to test it PostQuitMessage(0);
 		break;
 	case VK_W:
-	case VK_UP:
-	case XINPUT_GAMEPAD_DPAD_UP:
-	case XINPUT_GAMEPAD_Y:
 	{
 		//PostQuitMessage(0);
+		playerInput = GameInput::up;
 		break;
 	}
 	case VK_A:
-	case VK_LEFT:
-	case XINPUT_GAMEPAD_DPAD_LEFT:
-	case XINPUT_GAMEPAD_X:
 	{
-		//PostQuitMessage(0);
+		playerInput = GameInput::left;
 		break;
 	}
 	case VK_S:
-	case VK_DOWN:
-	case XINPUT_GAMEPAD_DPAD_DOWN:
-	case XINPUT_GAMEPAD_A:
 	{
+		playerInput = GameInput::down;
 		break;
 	}
 	case VK_D:
-	case VK_RIGHT:
-	case XINPUT_GAMEPAD_DPAD_RIGHT:
-	case XINPUT_GAMEPAD_B:
 	{
+		playerInput = GameInput::right;
 		break;
 	}
 	case VK_CONTROL:
@@ -314,30 +303,24 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE prevInstance, LPWSTR cmd, int
 		{
 			gamepad.Update(); // Update gamepad
 
-			TestInput();
-
 			clock_t tend = clock();
 
 			float deltaTime = (tend - oldTime) / (double)CLOCKS_PER_SEC;
 
 			oldTime = clock();
 
-			GetTickCount();
-
-			SOC_GameController::Update(deltaTime, TestInput());
+			if (TestInput() == GameInput::null || gamepad.Connected()==false)
+			{
+				SOC_GameController::Update(deltaTime, playerInput);
+			}
+			else
+			{
+				SOC_GameController::Update(deltaTime, TestInput());
+			}
 			// render
 			SOC_GameController::Render();
 
-
-
-			/*
-			if (gamepad.Connected())
-			{
-				// Run gamepad input test
-				//TestGamepad();
-				TestInput();
-			}
-			*/
+			playerInput = GameInput::null;
 		}
 	}
 

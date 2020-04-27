@@ -47,11 +47,12 @@ SOC_GameObject::~SOC_GameObject()
 	}
 }
 
-void SOC_GameObject::Update()
+void SOC_GameObject::Update(float deltaTime)
 {
 	//POINT cursorPos;
 
 	// this is how to get direction to mouse ( if the pos of the window is 0,0)
+	/*
 	SOC_Vector2 objPos = objectPhysics->GetPosition();
 
 	SOC_Vector2 cursorPos = graphics->GetCursorPosFromGraphics();
@@ -65,18 +66,23 @@ void SOC_GameObject::Update()
 	std::cout << "rotation: " << newRot << ", ";
 
 	objectPhysics->SetRotation(newRot);
+	*/
+
+	objectPhysics->UpdatePosition(deltaTime);
 }
 
 
 void SOC_GameObject::Render()
 {
-
-	listOfSprites[currentSpriteSheet]->Draw(objectPhysics->GetPosition().xVal, objectPhysics->GetPosition().yVal, objectPhysics->GetRotation());
-
-	// need some sort of frame counter and/ or timer to switch
-	if (listOfSprites[currentSpriteSheet]->GetAmountOfFrames() > 1)
+	if (isActiveInScene)
 	{
-		listOfSprites[currentSpriteSheet]->IncrementFrame();
+		listOfSprites[currentSpriteSheet]->Draw(objectPhysics->GetPosition().xVal, objectPhysics->GetPosition().yVal, objectPhysics->GetRotation());
+
+		// need some sort of frame counter and/ or timer to switch
+		if (listOfSprites[currentSpriteSheet]->GetAmountOfFrames() > 1)
+		{
+			listOfSprites[currentSpriteSheet]->IncrementFrame();
+		}
 	}
 }
 

@@ -78,6 +78,16 @@ void SOC_Graphics::DrawCircle(float x, float y, float radius, float r, float g, 
 
 }
 
+void SOC_Graphics::DrawRectangle(float x, float y, float width, float height, float r, float g, float b, float a)
+{
+	brush->SetColor(D2D1::ColorF(r, g, b, a));
+	renderTarget->CreateSolidColorBrush(D2D1::ColorF(r, g, b, a), &brush);
+
+	//renderTarget->DrawRectangle(D2D1::RectF(x, y, width, height), brush, 3.0f);
+	renderTarget->FillRectangle(D2D1::RectF(x, y, width, height), brush);
+}
+
+
 SOC_Vector2 SOC_Graphics::GetCursorPosFromGraphics()
 {
 	POINT actualCursorPos;

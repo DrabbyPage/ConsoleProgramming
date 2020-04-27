@@ -166,6 +166,7 @@
     <ClInclude Include="SOC_Vector.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="EnemyBullet.png" />
     <Image Include="PlayerDown.png" />
     <Image Include="PlayerLeft.png" />
     <Image Include="PlayerRight.png" />

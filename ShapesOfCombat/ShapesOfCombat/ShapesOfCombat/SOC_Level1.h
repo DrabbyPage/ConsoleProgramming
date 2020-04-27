@@ -14,16 +14,25 @@ public:
 	void Render() override;
 	void Update(float deltaTime, GameInput direction) override;
 
+	void CreateBullet(GameInput direction, float time);
+
 private:
 	
+	RECT playerShotRect;
+
 	int frame;
+	bool shot = false;
 
+	float totalLevelTime = 0;
 	float enemyMoveTimer = 1;
-
-	SOC_GameObject* testObject;
+	float originalSeenTimer = 0.7f;
+	float enemyAbleToBeSeenTimer = 0.7f;
 
 	SOC_GameObject* player;
-
 	SOC_GameObject* enemy;
+
+	HWND windoeHandler;
+	SOC_Vector2 windowPos;
+	std::vector<SOC_GameObject*> bullets;
 	//SOC_SpriteSheet* spritesheet;
 };
