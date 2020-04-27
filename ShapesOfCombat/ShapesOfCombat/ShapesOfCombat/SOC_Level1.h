@@ -27,6 +27,8 @@ private:
 	float enemyMoveTimer = 1;
 	float originalSeenTimer = 0.7f;
 	float enemyAbleToBeSeenTimer = 0.7f;
+	float shotRanderTimer = 0.1f;
+	float origShotTimer = 0.1f;
 
 	SOC_GameObject* player;
 	SOC_GameObject* enemy;
